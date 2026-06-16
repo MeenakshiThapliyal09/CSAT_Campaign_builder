@@ -4,11 +4,11 @@ A React TypeScript frontend for configuring a CSAT popup and previewing the resu
 
 ## Live Demo
 
-Live demo: _Add deployed project link here_
+Live demo: https://csat-campaign-builder-iota.vercel.app/
 
 ## GitHub Repository
 
-Repository: _Add GitHub repository link here_
+Repository:https://github.com/MeenakshiThapliyal09/CSAT_Campaign_builder
 
 ## Features
 
