@@ -1,73 +1,101 @@
-# React + TypeScript + Vite
+# Simplified CSAT Campaign Builder
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A React TypeScript frontend for configuring a CSAT popup and previewing the result in real time. The app lets users edit popup content, adjust visual styling, and inspect the configured experience inside a mobile-device preview.
 
-Currently, two official plugins are available:
+## Live Demo
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Live demo: _Add deployed project link here_
 
-## React Compiler
+## GitHub Repository
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Repository: _Add GitHub repository link here_
 
-## Expanding the ESLint configuration
+## Features
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- Content configuration for initial feedback, feedback, and thank-you screens
+- Rating type selection with numbers or stars
+- Dynamic feedback options with add, edit, and delete support
+- Optional additional comment field
+- Thank-you media upload preview using object URLs
+- Styling controls for colors, typography, border radius, and button dimensions
+- Live mobile preview with screen selector
+- Responsive layout for desktop, tablet, and mobile widths
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Assignment Highlights
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- Built as a focused frontend assignment with React, TypeScript, and Vite
+- Uses controlled form inputs for all configuration fields
+- Centralizes campaign state with React Context API
+- Provides real-time synchronization between forms and mobile preview
+- Separates pages, layout, context, hooks, data, and types for maintainability
+- Includes responsive behavior for desktop, tablet, and mobile screen sizes
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Tech Stack
+
+- React
+- TypeScript
+- Vite
+- React Router
+- React Context API
+- CSS
+
+## Folder Structure
+
+```text
+src/
+|-- components/
+|   `-- preview/
+|-- context/
+|-- data/
+|-- hooks/
+|-- layouts/
+|-- pages/
+|-- types/
+|-- App.tsx
+|-- main.tsx
+`-- index.css
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Installation
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
 ```
+
+## Running Locally
+
+```bash
+npm run dev
+```
+
+Open the local URL printed by Vite, usually:
+
+```text
+http://localhost:5173
+```
+
+## Build Command
+
+```bash
+npm run build
+```
+
+## Architecture Overview
+
+The application uses React Router for navigation between the content and styling configuration pages. Both routes render inside a shared `MainLayout`, which provides the left navigation, center configuration area, and right-side mobile preview.
+
+The mobile preview reads from the same campaign state as the forms, so edits are reflected immediately without a save action.
+
+## State Management Approach
+
+Campaign data is centralized in React Context. The `CampaignProvider` stores the full campaign configuration with `useState`, while `useCampaign` provides safe access to the context.
+
+Default values live in `src/data/defaultCampaignConfig.ts`, and shared TypeScript interfaces live in `src/types/campaign.ts`.
+
+## Future Improvements
+
+- Add reusable form input components
+- Add validation for uploaded media and numeric style limits
+- Persist campaign settings to local storage or an API
+- Add preview interaction for selected ratings and screen transitions
+- Add automated tests for context updates and preview rendering
