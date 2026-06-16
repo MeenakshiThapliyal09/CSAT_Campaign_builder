@@ -206,6 +206,11 @@ code {
   }
 }
 
+.content-page {
+  display: grid;
+  gap: 32px;
+}
+
 .content-section {
   max-width: 640px;
 }
@@ -223,7 +228,8 @@ code {
 }
 
 .field-group input,
-.field-group textarea {
+.field-group textarea,
+.field-group select {
   border: 1px solid var(--border);
   border-radius: 8px;
   box-sizing: border-box;
@@ -231,4 +237,40 @@ code {
   font: inherit;
   padding: 10px 12px;
   width: 100%;
+}
+
+.section-header {
+  align-items: center;
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+}
+
+.section-header button,
+.option-row button {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text-h);
+  cursor: pointer;
+  font: inherit;
+  padding: 8px 12px;
+}
+
+.options-list {
+  display: grid;
+  gap: 10px;
+}
+
+.option-row {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+
+.checkbox-field {
+  align-items: center;
+  color: var(--text-h);
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
 }

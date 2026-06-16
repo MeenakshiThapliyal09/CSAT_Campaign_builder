@@ -12,7 +12,7 @@ export const defaultCampaignConfig: CampaignConfig = {
       { id: 'hard-to-use', label: 'Hard to use' },
       { id: 'great-support', label: 'Great support' },
     ],
-    isAdditionalCommentEnabled: true,
+    allowAdditionalComment: true,
     submitButtonText: 'Submit Feedback',
   },
   thankYou: {

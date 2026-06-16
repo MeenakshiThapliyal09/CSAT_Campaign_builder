@@ -11,7 +11,7 @@ export interface InitialFeedbackConfig {
 export interface FeedbackConfig {
   ratingType: 'stars' | 'numbers';
   options: FeedbackOption[];
-  isAdditionalCommentEnabled: boolean;
+  allowAdditionalComment: boolean;
   submitButtonText: string;
 }
 
