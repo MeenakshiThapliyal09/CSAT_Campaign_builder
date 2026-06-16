@@ -205,3 +205,30 @@ code {
     border: 0;
   }
 }
+
+.content-section {
+  max-width: 640px;
+}
+
+.field-group {
+  display: grid;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.field-group label {
+  color: var(--text-h);
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.field-group input,
+.field-group textarea {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-sizing: border-box;
+  color: var(--text-h);
+  font: inherit;
+  padding: 10px 12px;
+  width: 100%;
+}
