@@ -2,6 +2,22 @@ import type { ChangeEvent } from 'react';
 import { useCampaign } from '../hooks/useCampaign';
 import type { StyleConfig } from '../types/campaign';
 
+type ColorStyleField =
+  | 'backgroundColor'
+  | 'titleColor'
+  | 'subtitleColor'
+  | 'buttonColor'
+  | 'buttonTextColor'
+  | 'ratingSelectedColor'
+  | 'ratingUnselectedColor';
+
+type NumericStyleField =
+  | 'fontSize'
+  | 'fontWeight'
+  | 'borderRadius'
+  | 'buttonWidth'
+  | 'buttonHeight';
+
 function StylingPage() {
   const { campaign, setCampaign } = useCampaign();
   const styles = campaign.styles;
@@ -18,12 +34,12 @@ function StylingPage() {
 
   function handleColorChange(event: ChangeEvent<HTMLInputElement>) {
     const { name, value } = event.target;
-    updateStyleField(name as keyof StyleConfig, value);
+    updateStyleField(name as ColorStyleField, value);
   }
 
   function handleNumberChange(event: ChangeEvent<HTMLInputElement>) {
     const { name, value } = event.target;
-    updateStyleField(name as keyof StyleConfig, Number(value));
+    updateStyleField(name as NumericStyleField, Number(value));
   }
 
   function handleFontWeightChange(event: ChangeEvent<HTMLSelectElement>) {
