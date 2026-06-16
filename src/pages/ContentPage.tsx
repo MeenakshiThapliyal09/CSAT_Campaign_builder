@@ -5,6 +5,13 @@ function ContentPage() {
   const { campaign, setCampaign } = useCampaign();
   const { title, subtitle } = campaign.initialFeedback;
   const { ratingType, options, allowAdditionalComment, submitButtonText } = campaign.feedback;
+  const {
+    mediaUrl: thankYouMediaUrl,
+    mediaName: thankYouMediaName,
+    title: thankYouTitle,
+    subtitle: thankYouSubtitle,
+    buttonText: thankYouButtonText,
+  } = campaign.thankYou;
 
   function handleInitialFeedbackChange(
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -94,6 +101,41 @@ function ContentPage() {
     }));
   }
 
+  function handleThankYouMediaChange(event: ChangeEvent<HTMLInputElement>) {
+    const file = event.target.files?.[0];
+
+    if (!file) {
+      return;
+    }
+
+    const mediaUrl = URL.createObjectURL(file);
+
+    if (thankYouMediaUrl.startsWith('blob:')) {
+      URL.revokeObjectURL(thankYouMediaUrl);
+    }
+
+    setCampaign((currentCampaign) => ({
+      ...currentCampaign,
+      thankYou: {
+        ...currentCampaign.thankYou,
+        mediaUrl,
+        mediaName: file.name,
+      },
+    }));
+  }
+
+  function handleThankYouChange(event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
+    const { name, value } = event.target;
+
+    setCampaign((currentCampaign) => ({
+      ...currentCampaign,
+      thankYou: {
+        ...currentCampaign.thankYou,
+        [name]: value,
+      },
+    }));
+  }
+
   return (
     <div className="content-page">
       <section className="content-section">
@@ -175,6 +217,54 @@ function ContentPage() {
             type="text"
             value={submitButtonText}
             onChange={handleSubmitButtonTextChange}
+          />
+        </div>
+      </section>
+
+      <section className="content-section">
+        <h2>Thank You Configuration</h2>
+
+        <div className="field-group">
+          <label htmlFor="thank-you-media">Media Upload</label>
+          <input
+            id="thank-you-media"
+            type="file"
+            accept="image/png,image/jpg,image/jpeg,image/gif"
+            onChange={handleThankYouMediaChange}
+          />
+          {thankYouMediaName && <p className="field-help">Selected: {thankYouMediaName}</p>}
+        </div>
+
+        <div className="field-group">
+          <label htmlFor="thank-you-title">Title</label>
+          <input
+            id="thank-you-title"
+            name="title"
+            type="text"
+            value={thankYouTitle}
+            onChange={handleThankYouChange}
+          />
+        </div>
+
+        <div className="field-group">
+          <label htmlFor="thank-you-subtitle">Subtitle</label>
+          <textarea
+            id="thank-you-subtitle"
+            name="subtitle"
+            value={thankYouSubtitle}
+            onChange={handleThankYouChange}
+            rows={3}
+          />
+        </div>
+
+        <div className="field-group">
+          <label htmlFor="thank-you-button-text">Button Text</label>
+          <input
+            id="thank-you-button-text"
+            name="buttonText"
+            type="text"
+            value={thankYouButtonText}
+            onChange={handleThankYouChange}
           />
         </div>
       </section>

@@ -274,3 +274,8 @@ code {
   gap: 10px;
   margin-top: 20px;
 }
+
+.field-help {
+  color: var(--text);
+  font-size: 14px;
+}
