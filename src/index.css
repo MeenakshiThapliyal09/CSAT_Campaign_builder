@@ -378,3 +378,20 @@ code {
   color: var(--text);
   font-size: 14px;
 }
+
+.style-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.field-group input[type='color'] {
+  height: 44px;
+  padding: 4px;
+}
+
+@media (max-width: 720px) {
+  .style-grid {
+    grid-template-columns: 1fr;
+  }
+}
