@@ -221,6 +221,28 @@ p {
   width: 34px;
 }
 
+.preview-rating__number[aria-pressed='true'],
+.preview-rating__star[aria-pressed='true'],
+.preview-option.selected {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+}
+
+.preview-screen {
+  height: 100%;
+  transition: opacity 240ms ease, transform 240ms ease;
+}
+
+.preview-screen-enter {
+  opacity: 0;
+  transform: translateY(6px);
+}
+
+.preview-screen-exit {
+  opacity: 0;
+  transform: translateY(-6px);
+}
+
 .preview-options {
   display: grid;
   gap: 8px;

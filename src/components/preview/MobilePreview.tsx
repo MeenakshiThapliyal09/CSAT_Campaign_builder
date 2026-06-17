@@ -7,7 +7,11 @@ function MobilePreview() {
   const { campaign } = useCampaign();
   const [activeScreen, setActiveScreen] = useState<PreviewScreen>('initial');
   const styles = campaign.styles;
-  const selectedRatingCount = 3;
+
+  // Local interactive state for the preview only
+  const [selectedRating, setSelectedRating] = useState<number | null>(null);
+  const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
+  const [comment, setComment] = useState<string>('');
 
   const screenStyle: CSSProperties = {
     backgroundColor: styles.backgroundColor,
@@ -39,7 +43,7 @@ function MobilePreview() {
   };
 
   function getRatingStyle(rating: number): CSSProperties {
-    const isSelected = rating <= selectedRatingCount;
+    const isSelected = selectedRating !== null ? rating <= selectedRating : false;
 
     if (campaign.feedback.ratingType === 'numbers') {
       return {
@@ -64,9 +68,16 @@ function MobilePreview() {
       return (
         <div className="preview-rating" aria-label="Rating options">
           {[1, 2, 3, 4, 5].map((rating) => (
-            <span className="preview-rating__number" key={rating} style={getRatingStyle(rating)}>
+            <button
+              key={rating}
+              type="button"
+              className="preview-rating__number"
+              style={{ ...getRatingStyle(rating), cursor: 'pointer' }}
+              onClick={() => setSelectedRating(rating)}
+              aria-pressed={selectedRating === rating}
+            >
               {rating}
-            </span>
+            </button>
           ))}
         </div>
       );
@@ -75,9 +86,16 @@ function MobilePreview() {
     return (
       <div className="preview-rating" aria-label="Rating options">
         {[1, 2, 3, 4, 5].map((rating) => (
-          <span className="preview-rating__star" key={rating} style={getRatingStyle(rating)}>
+          <button
+            key={rating}
+            type="button"
+            className="preview-rating__star"
+            style={{ ...getRatingStyle(rating), cursor: 'pointer' }}
+            onClick={() => setSelectedRating(rating)}
+            aria-pressed={selectedRating === rating}
+          >
             {'\u2605'}
-          </span>
+          </button>
         ))}
       </div>
     );
@@ -90,28 +108,42 @@ function MobilePreview() {
           {renderRating()}
 
           <div className="preview-options">
-            {campaign.feedback.options.map((option) => (
-              <div
-                className="preview-option"
-                key={option.id}
-                style={{
-                  borderRadius: styles.borderRadius,
-                  color: styles.subtitleColor,
-                  fontSize: styles.fontSize - 2,
-                  fontWeight: styles.fontWeight,
-                }}
-              >
-                {option.label}
-              </div>
-            ))}
+            {campaign.feedback.options.map((option) => {
+              const isSelected = selectedOptions.includes(option.id);
+              return (
+                <button
+                  key={option.id}
+                  type="button"
+                  className={`preview-option${isSelected ? ' selected' : ''}`}
+                  onClick={() =>
+                    setSelectedOptions((prev) =>
+                      prev.includes(option.id) ? prev.filter((id) => id !== option.id) : [...prev, option.id]
+                    )
+                  }
+                  style={{
+                    borderRadius: styles.borderRadius,
+                    color: isSelected ? styles.buttonTextColor : styles.subtitleColor,
+                    fontSize: styles.fontSize - 2,
+                    fontWeight: styles.fontWeight,
+                    backgroundColor: isSelected ? styles.buttonColor : 'transparent',
+                    borderColor: isSelected ? styles.buttonColor : undefined,
+                    textAlign: 'left',
+                    cursor: 'pointer',
+                  }}
+                >
+                  {option.label}
+                </button>
+              );
+            })}
           </div>
 
           {campaign.feedback.allowAdditionalComment && (
             <textarea
               className="preview-comment"
               placeholder="Add a comment"
-              readOnly
               rows={3}
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
               style={{
                 borderRadius: styles.borderRadius,
                 color: styles.subtitleColor,
@@ -121,7 +153,12 @@ function MobilePreview() {
             />
           )}
 
-          <button className="preview-button" type="button" style={buttonStyle}>
+          <button
+            className="preview-button"
+            type="button"
+            style={buttonStyle}
+            onClick={() => setActiveScreen('thankYou')}
+          >
             {campaign.feedback.submitButtonText}
           </button>
         </div>
@@ -141,7 +178,18 @@ function MobilePreview() {
           )}
           <h2 style={titleStyle}>{campaign.thankYou.title}</h2>
           <p style={subtitleStyle}>{campaign.thankYou.subtitle}</p>
-          <button className="preview-button" type="button" style={buttonStyle}>
+          <button
+            className="preview-button"
+            type="button"
+            style={buttonStyle}
+            onClick={() => {
+              // reset local preview state and go back to initial
+              setSelectedRating(null);
+              setSelectedOptions([]);
+              setComment('');
+              setActiveScreen('initial');
+            }}
+          >
             {campaign.thankYou.buttonText}
           </button>
         </div>
@@ -149,10 +197,18 @@ function MobilePreview() {
     }
 
     return (
-      <div className="preview-content">
-        <h2 style={titleStyle}>{campaign.initialFeedback.title}</h2>
-        <p style={subtitleStyle}>{campaign.initialFeedback.subtitle}</p>
-      </div>
+        <div className="preview-content">
+          <h2 style={titleStyle}>{campaign.initialFeedback.title}</h2>
+          <p style={subtitleStyle}>{campaign.initialFeedback.subtitle}</p>
+          <button
+            className="preview-button"
+            type="button"
+            style={buttonStyle}
+            onClick={() => setActiveScreen('feedback')}
+          >
+            Continue
+          </button>
+        </div>
     );
   }
 
@@ -196,7 +252,9 @@ function MobilePreview() {
 
       <div className="mobile-preview__device">
         <div className="mobile-preview__screen" style={screenStyle}>
-          {renderScreen()}
+          <div className="preview-screen" key={activeScreen}>
+            {renderScreen()}
+          </div>
         </div>
       </div>
     </section>
